@@ -57,11 +57,11 @@
 					"tutorial1adlsgen2storage_accountKey": {
 						"value": "[parameters('tutorial1adlsgen2storage_accountKey')]"
 					},
-					"tutorial1adlsgen2storage_properties_typeProperties_url": {
-						"value": "[parameters('tutorial1adlsgen2storage_properties_typeProperties_url')]"
-					},
 					"SharedSHIR_properties_typeProperties_linkedInfo_resourceId": {
 						"value": "[parameters('SharedSHIR_properties_typeProperties_linkedInfo_resourceId')]"
+					},
+					"tutorial1adlsgen2storage_properties_typeProperties_url": {
+						"value": "[parameters('tutorial1adlsgen2storage_properties_typeProperties_url')]"
 					},
 					"BlobEventTrigger_properties_RecursivelyReadingDatafromADLS_parameters_foldername": {
 						"value": "[parameters('BlobEventTrigger_properties_RecursivelyReadingDatafromADLS_parameters_foldername')]"

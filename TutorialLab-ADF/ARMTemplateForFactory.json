@@ -667,9 +667,15 @@
 						"type": "SecureString",
 						"value": "[parameters('tutorial1adlsgen2storage_accountKey')]"
 					}
+				},
+				"connectVia": {
+					"referenceName": "AzureIRwManagedVnet",
+					"type": "IntegrationRuntimeReference"
 				}
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/integrationRuntimes/AzureIRwManagedVnet')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/BlobEventTrigger')]",
@@ -704,29 +710,6 @@
 			]
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/SharedSHIR')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"type": "SelfHosted",
-				"description": "Use the same SHIR as Dev-Lab",
-				"typeProperties": {
-					"linkedInfo": {
-						"resourceId": "[parameters('SharedSHIR_properties_typeProperties_linkedInfo_resourceId')]",
-						"authorizationType": "Rbac"
-					}
-				}
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/default')]",
-			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks",
-			"apiVersion": "2018-06-01",
-			"properties": {},
-			"dependsOn": []
-		},
-		{
 			"name": "[concat(parameters('factoryName'), '/AzureIRwManagedVnet')]",
 			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
@@ -741,22 +724,27 @@
 							"timeToLive": 10,
 							"cleanup": false,
 							"customProperties": []
-						},
-						"pipelineExternalComputeScaleProperties": {
-							"timeToLive": 60,
-							"numberOfPipelineNodes": 1,
-							"numberOfExternalNodes": 1
 						}
 					}
-				},
-				"managedVirtualNetwork": {
-					"type": "ManagedVirtualNetworkReference",
-					"referenceName": "default"
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/managedVirtualNetworks/default')]"
-			]
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/SharedSHIR')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"type": "SelfHosted",
+				"description": "Use the same SHIR as Dev-Lab",
+				"typeProperties": {
+					"linkedInfo": {
+						"resourceId": "[parameters('SharedSHIR_properties_typeProperties_linkedInfo_resourceId')]",
+						"authorizationType": "Rbac"
+					}
+				}
+			},
+			"dependsOn": []
 		}
 	]
 }

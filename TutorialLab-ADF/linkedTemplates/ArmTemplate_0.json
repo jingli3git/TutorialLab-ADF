@@ -11,13 +11,13 @@
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'tutorial1adlsgen2storage'"
 		},
-		"tutorial1adlsgen2storage_properties_typeProperties_url": {
-			"type": "string",
-			"defaultValue": "https://tutoriallab.dfs.core.windows.net/"
-		},
 		"SharedSHIR_properties_typeProperties_linkedInfo_resourceId": {
 			"type": "string",
 			"defaultValue": "/subscriptions/77eb781b-2934-49ae-ad99-a2e3293717fd/resourcegroups/Tutorial1/providers/Microsoft.DataFactory/factories/Dev-Lab/integrationruntimes/AzureVMStandaloneSHIR"
+		},
+		"tutorial1adlsgen2storage_properties_typeProperties_url": {
+			"type": "string",
+			"defaultValue": "https://tutoriallab.dfs.core.windows.net/"
 		},
 		"BlobEventTrigger_properties_RecursivelyReadingDatafromADLS_parameters_foldername": {
 			"type": "string",
@@ -33,17 +33,21 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/tutorial1adlsgen2storage')]",
-			"type": "Microsoft.DataFactory/factories/linkedServices",
+			"name": "[concat(parameters('factoryName'), '/AzureIRwManagedVnet')]",
+			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"annotations": [],
-				"type": "AzureBlobFS",
+				"type": "Managed",
 				"typeProperties": {
-					"url": "[parameters('tutorial1adlsgen2storage_properties_typeProperties_url')]",
-					"accountKey": {
-						"type": "SecureString",
-						"value": "[parameters('tutorial1adlsgen2storage_accountKey')]"
+					"computeProperties": {
+						"location": "East US",
+						"dataFlowProperties": {
+							"computeType": "General",
+							"coreCount": 8,
+							"timeToLive": 10,
+							"cleanup": false,
+							"customProperties": []
+						}
 					}
 				}
 			},
@@ -66,42 +70,26 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/default')]",
-			"type": "Microsoft.DataFactory/factories/managedVirtualNetworks",
-			"apiVersion": "2018-06-01",
-			"properties": {},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/AzureIRwManagedVnet')]",
-			"type": "Microsoft.DataFactory/factories/integrationRuntimes",
+			"name": "[concat(parameters('factoryName'), '/tutorial1adlsgen2storage')]",
+			"type": "Microsoft.DataFactory/factories/linkedServices",
 			"apiVersion": "2018-06-01",
 			"properties": {
-				"type": "Managed",
+				"annotations": [],
+				"type": "AzureBlobFS",
 				"typeProperties": {
-					"computeProperties": {
-						"location": "East US",
-						"dataFlowProperties": {
-							"computeType": "General",
-							"coreCount": 8,
-							"timeToLive": 10,
-							"cleanup": false,
-							"customProperties": []
-						},
-						"pipelineExternalComputeScaleProperties": {
-							"timeToLive": 60,
-							"numberOfPipelineNodes": 1,
-							"numberOfExternalNodes": 1
-						}
+					"url": "[parameters('tutorial1adlsgen2storage_properties_typeProperties_url')]",
+					"accountKey": {
+						"type": "SecureString",
+						"value": "[parameters('tutorial1adlsgen2storage_accountKey')]"
 					}
 				},
-				"managedVirtualNetwork": {
-					"type": "ManagedVirtualNetworkReference",
-					"referenceName": "default"
+				"connectVia": {
+					"referenceName": "AzureIRwManagedVnet",
+					"type": "IntegrationRuntimeReference"
 				}
 			},
 			"dependsOn": [
-				"[concat(variables('factoryId'), '/managedVirtualNetworks/default')]"
+				"[concat(variables('factoryId'), '/integrationRuntimes/AzureIRwManagedVnet')]"
 			]
 		},
 		{
